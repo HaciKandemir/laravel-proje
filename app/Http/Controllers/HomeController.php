@@ -72,6 +72,8 @@ class HomeController extends Controller
 
         $bilgi = "Sunucudaki dosya indirilip veriler veritabanına kaydedildi";
 
+        App\Jobs\SendMail::dispatch();
+
         return view('welcome',compact('bilgi'));
     }
 
