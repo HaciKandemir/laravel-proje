@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMail;
+use App\Jobs\DbSaveData;
 use App\Repositories\DatabaseRepository;
 use App\Repositories\ExcelRepository;
 use App\Repositories\FileRepository;
 use App\Repositories\FtpRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Filesystem;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\ServiceProvider;
-use App\Imports\ExcelImport;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Category;
+
+
 
 class HomeController extends Controller
 {
@@ -68,11 +63,10 @@ class HomeController extends Controller
                 $children->appendToNode($parent)->save();
             }
         }*/
-        $this->dbRepo->saveDataCategoryTable($dataArray);
+        //$this->dbRepo->saveDataCategoryTable($dataArray);
+        $this->dispatch(new DbSaveData($dataArray));
 
-        $bilgi = "Sunucudaki dosya indirilip veriler veritabanına kaydedildi";
-
-        App\Jobs\SendMail::dispatch();
+        $this->dispatch(new SendMail());
 
         return view('welcome',compact('bilgi'));
     }
