@@ -1,5 +1,5 @@
 <html>
 
-<h1>Veri tabanına yeni veriler eklendi</h1>
+<h1>Veri tabanına veriler eklendi</h1>
 
 </html>

@@ -3,8 +3,6 @@
 namespace App\Jobs;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeEmail;
-
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -33,7 +31,7 @@ class SendMail implements ShouldQueue
      */
     public function handle()
     {
-        $email = new WelcomeEmail();
-        Mail::to('hacikandemir005@hotmail.com')->send($email);
+        Mail::to('buradayim@90pixel.com')->cc('hacikandemir005@hotmail.com')
+            ->send(new WelcomeEmail());
     }
 }

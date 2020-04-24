@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Queue::after(function (JobProcessed $event) {
+
             // $event->job
             // $event->job->payload()
         });

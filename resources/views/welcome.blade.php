@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Challange Code \ 90Pixel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -68,8 +68,9 @@
         <div class="card">
             <div class="row">
                 <div class="card-body">
-                    <h1>{{$bilgi}}</h1>
-
+                    @if(isset($bilgi))
+                        <h1>{{$bilgi}}</h1>
+                    @endif
                 </div>
             </div>
         </div>

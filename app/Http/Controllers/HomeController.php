@@ -29,45 +29,15 @@ class HomeController extends Controller
 
     public function index()
     {
-        //$files = $this->fetchFtpFiles("/categories/");
         $files = $this->ftpRepo->fetchFilesName("/categories/");
-
-        //$files = $this->filterFileByExtension($files,"xlsx");
-        $files=$this->fileRepo->filterByExtension($files,"xlsx");
-
-        //$fileFtpPath = $this->fetchFilePathByDate($files,'@\d+@m');
+        $files = $this->fileRepo->filterByExtension($files,"xlsx");
         $fileFtpPath = $this->fileRepo->fetchPathByDate($files,'@\d+@m');
-
-        //$this->downloadFileFromFtp($fileFtpPath);
         $this->ftpRepo->downloadFile($fileFtpPath);
-
-        //$array = $this->getExcelData($fileFtpPath);
         $dataArray = $this->excelRepo->getData($fileFtpPath);
-
-        //unset($dataArray[0][0]);
         $dataArray = $this->excelRepo->deleteHeading($dataArray);
-
-        /*foreach ($dataArray[0] as $dizi){
-            if (!(Category::where('category_name',$dizi[0])->first())){
-                $category = new Category(['category_name' => $dizi[0]]);
-                $category->save();
-            }
-            if(!(Category::where('category_name',$dizi[1])->first())){
-                $parent = Category::where('category_name',$dizi[0])->first();
-                $children = new Category(['category_name' => $dizi[1]]);
-                $children->appendToNode($parent)->save();
-            }
-            if(!(Category::where('category_name',$dizi[2])->first())&&isset($dizi[2])){
-                $parent = Category::where('category_name',$dizi[1])->first();
-                $children = new Category(['category_name' => $dizi[2]]);
-                $children->appendToNode($parent)->save();
-            }
-        }*/
-        //$this->dbRepo->saveDataCategoryTable($dataArray);
         $this->dispatch(new DbSaveData($dataArray));
-
         $this->dispatch(new SendMail());
-
+        $bilgi = "İşlemler bitince eposta ile bilgilendirme mesajı yollanacaktır.";
         return view('welcome',compact('bilgi'));
     }
 
